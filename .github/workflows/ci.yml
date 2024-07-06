@@ -1,0 +1,34 @@
+name: Backup Bitewarden
+
+on:
+  push:
+  schedule:
+    - cron: '0 20 * * *'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v4
+
+    - name: Install bw-cli
+      env:
+        BW_CLIENTID: ${{ secrets.BW_CLIENTID }}
+        BW_CLIENTSECRET: ${{ secrets.BW_CLIENTSECRET }}
+        BW_PASSWORD: ${{ secrets.BW_PASSWORD }}
+        BW_URL_SERVER: ${{ secrets.BW_URL_SERVER }}
+      run: |
+        export EXPORT_FILE="bw.zip"
+        bash run.sh
+
+    - name: Upload to WebDAV
+      uses: bxb100/action-upload@main
+      with:
+        provider: webdav
+        provider_options: |
+          endpoint=${{ secrets.WEBDAV_ENDPOINT }}
+          username=${{ secrets.WEBDAV_USERNAME }}
+          password=${{ secrets.WEBDAV_PASSWORD }}
+          root=/bitwarden_backup/
+        include: "bw.zip"
