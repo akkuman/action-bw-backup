@@ -19,7 +19,7 @@ jobs:
         BW_PASSWORD: ${{ secrets.BW_PASSWORD }}
         BW_URL_SERVER: ${{ secrets.BW_URL_SERVER }}
       run: |
-        export EXPORT_FILE="bw.zip"
+        export EXPORT_FILE="$$(date +"%Y-%m-%d")-bw.zip"
         bash run.sh
 
     - name: Upload to WebDAV
@@ -31,4 +31,5 @@ jobs:
           username=${{ secrets.WEBDAV_USERNAME }}
           password=${{ secrets.WEBDAV_PASSWORD }}
           root=/bitwarden_backup/
-        include: "bw.zip"
+        include: '*-bw.zip'
+        flatten: true
