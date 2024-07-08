@@ -19,7 +19,7 @@ jobs:
         BW_PASSWORD: ${{ secrets.BW_PASSWORD }}
         BW_URL_SERVER: ${{ secrets.BW_URL_SERVER }}
       run: |
-        export EXPORT_FILE="$$(date +"%Y-%m-%d")-bw.zip"
+        export EXPORT_FILE="$(date +"%Y-%m-%d")-bw.zip"
         bash run.sh
 
     - name: Upload to WebDAV
