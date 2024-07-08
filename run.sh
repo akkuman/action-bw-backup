@@ -87,7 +87,7 @@ if [[ $params_validated != 0 ]]; then
     exit 1
 fi
 
-npm install -g @bitwarden/cli
+npm install -g @bitwarden/cli@2024.6.0
 
 if [[ $bw_url_server != "" && $bw_url_server != *"bitwarden.com" ]]; then
     echo "$(date '+%F %T') Setting custom server..."
